@@ -18,12 +18,4 @@ A estrutura do projeto é organizada da seguinte maneira:
 
 - **`Main.java`**: Classe principal que contém o método `main` para executar o projeto e testar as funcionalidades.
 
-## Como Executar
-
-Para executar o projeto, siga estes passos:
-
-1. **Compile o projeto**:
-   Navegue até o diretório raiz do projeto e compile os arquivos Java com o comando:
-   ```bash
-   javac -d bin src/com/example/carrentalsystem/*.java
    
