@@ -13,7 +13,7 @@ A estrutura do projeto é organizada da seguinte maneira:
 - **`Client.java`**: Classe que representa um usuário da locadora. Inclui informações como nome e número da carteira de motorista.
 
 - **`Rent.java`**: Classe que representa uma locação, vinculando um carro a um usuário e definindo o período da locação.
-- 
+
 - **`SistemaDeAluguel.java`**: Classe que controla o fluxo de entrada e saída de carros.
 
 - **`Main.java`**: Classe principal que contém o método `main` para executar o projeto e testar as funcionalidades.
