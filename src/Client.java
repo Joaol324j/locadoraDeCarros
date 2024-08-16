@@ -12,22 +12,6 @@ public class Client {
         this.cpf = cpf;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public int getIdade() {
-        return idade;
-    }
-
-    public int getNascimento() {
-        return nascimento;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
     @Override
     public String toString() {
         return "Cliente{" +

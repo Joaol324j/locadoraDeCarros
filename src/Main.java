@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Main extends JFrame {
@@ -13,6 +15,7 @@ public class Main extends JFrame {
     private JList<String> clienteList;
     private JButton alugarButton;
     private JButton devolverButton;
+    private JButton detalhesButton;
     private DefaultListModel<String> carrosListModel;
     private DefaultListModel<String> clienteListModel;
     private ArrayList<Cars> listaCarros;
@@ -29,7 +32,7 @@ public class Main extends JFrame {
         setContentPane(SytemPanel);
         setTitle("Locadora de Carros");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(600, 500);
+        setSize(800, 700);
         setLocationRelativeTo(null);
         setVisible(true);
 
@@ -45,7 +48,9 @@ public class Main extends JFrame {
 
                 Cars novoCarro = new Cars(nome, cor, placa, marca, ano, portas, true);
                 listaCarros.add(novoCarro);
-                carrosListModel.addElement(novoCarro.nome);
+                String carroInfo = String.format("%s | %s | %s | %s | %d | %d portas",
+                        nome, cor, placa, marca, ano, portas);
+                carrosListModel.addElement(carroInfo);
             }
         });
 
@@ -75,7 +80,9 @@ public class Main extends JFrame {
 
                 Client novoCliente = new Client(nome, idade, nascimento, cpf);
                 listaClientes.add(novoCliente);
-                clienteListModel.addElement(novoCliente.getNome());
+                String clientInfo = String.format("%s | %d | %d | %s |",
+                        nome, idade, nascimento, cpf);
+                clienteListModel.addElement(clientInfo);
             }
         });
 
@@ -103,11 +110,13 @@ public class Main extends JFrame {
 
                 if (carroSelecionado >= 0 && clienteSelecionado >= 0) {
                     Cars carro = listaCarros.get(carroSelecionado);
-                    Client cliente = listaClientes.get(clienteSelecionado);
 
                     if (carro.isDisponivel()) {
                         carro.setDisponivel(false);
-                        JOptionPane.showMessageDialog(null, "Carro alugado para " + cliente.getNome() + " com sucesso!");
+                        int valor = Integer.parseInt(JOptionPane.showInputDialog("Digite o Valor para Alugar o Carro"));
+                        Rent rent = new Rent(valor, LocalDate.now(), LocalTime.now());
+                        carro.setRent(rent);
+                        JOptionPane.showMessageDialog(null, "Carro alugado com sucesso!");
                     } else {
                         JOptionPane.showMessageDialog(null, "Este carro já está alugado.");
                     }
@@ -116,6 +125,7 @@ public class Main extends JFrame {
                 }
             }
         });
+
 
         devolverButton.addActionListener(new ActionListener() {
             @Override
@@ -136,6 +146,29 @@ public class Main extends JFrame {
                 }
             }
         });
+
+        detalhesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int carroSelecionado = carrosList.getSelectedIndex();
+
+                if (carroSelecionado >= 0) {
+                    Cars carro = listaCarros.get(carroSelecionado);
+                    Rent rent = carro.getRent();
+
+                    if (rent != null) {
+                        JOptionPane.showMessageDialog(null,
+                                String.format("Detalhes do Aluguel:\nValor: %.2f\nData: %s\nHora: %s",
+                                        rent.valor, rent.data.toString(), rent.hora.toString()));
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Este carro não está alugado.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecione um carro para ver os detalhes.");
+                }
+            }
+        });
+
     }
 
     public static void main(String[] args) {
